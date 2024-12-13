@@ -12,6 +12,7 @@ async def lifespan(app: FastAPI):
     await setup_storage()
     yield
 
+
 app = FastAPI(lifespan=lifespan)
 
 
@@ -22,7 +23,6 @@ def health():
 
 @app.get("/weather")
 async def get_weather(
-        city: str,
-        service: WeatherService = Depends(get_weather_service)
+    city: str, service: WeatherService = Depends(get_weather_service)
 ):
     return await service.get_weather(city)

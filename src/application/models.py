@@ -1,9 +1,11 @@
 import datetime
+from uuid import uuid4, UUID
 
-from pydantic import BaseModel, model_serializer
+from pydantic import BaseModel, model_serializer, Field
 
 
 class WeatherLogData(BaseModel):
+    id: UUID = Field(default_factory=uuid4, frozen=True)
     city: str
     timestamp: datetime.datetime
     s3_path: str
@@ -11,7 +13,8 @@ class WeatherLogData(BaseModel):
     @model_serializer
     def serialize(self):
         return {
-                    'city': {'S': self.city.lower()},
-                    'timestamp': {'S': self.timestamp.isoformat()},
-                    's3_path': {'S': self.s3_path}
-                }
+            "id": {"S": str(self.id)},
+            "city": {"S": self.city.lower()},
+            "timestamp": {"S": self.timestamp.isoformat()},
+            "s3_path": {"S": self.s3_path},
+        }

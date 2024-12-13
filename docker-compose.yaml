@@ -8,7 +8,7 @@ services:
     volumes:
       - "~/minio/data:/data"
     env_file: "./src/.env"
-  
+
   dynamodb-local:
     command: "-jar DynamoDBLocal.jar"
     image: "amazon/dynamodb-local:latest"
@@ -26,9 +26,10 @@ services:
       - dynamodb-local
     build: .
     ports:
-      - 80:80
+      - 8080:8080
     env_file: "./src/.env"
 
 networks:
   default:
     name: weather-app-network
+    driver: bridge
