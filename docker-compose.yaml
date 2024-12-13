@@ -28,6 +28,9 @@ services:
     ports:
       - 8080:8080
     env_file: "./src/.env"
+    environment: 
+      MINIO_ENDPOINT: http://host.docker.internal:9000
+      DYNAMODB_ENDPOINT: http://host.docker.internal:8000
 
 networks:
   default:

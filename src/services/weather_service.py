@@ -55,7 +55,11 @@ class WeatherService:
                 "units": "metric",
             }
             response = await client.get(settings.OPENWEATHER_BASE_URL, params=params)
-            if response.status_code != HTTPStatus.OK:
+            if response.status_code == HTTPStatus.NOT_FOUND:
+                raise HTTPException(
+                    status_code=404, detail=f"No results for city {city}"
+                )
+            elif response.status_code != HTTPStatus.OK:
                 raise HTTPException(
                     status_code=500, detail="Failed to fetch weather data"
                 )
